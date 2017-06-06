@@ -58,10 +58,22 @@ public class Address {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return "Street: " + this.street + " City: " + this.city + " State: " + this.state + " ZipCode: "
-				+ this.zipCode;
+		String address = "";
+		if (street != null) {
+			address += "Street: " + street;
+		}
+		if (city != null) {
+			address += "City: " + city;
+		}
+		if (state != null) {
+			address += "State: " + state;
+		}
+		if (zipCode != 0) {
+			address += "ZipCode: " + zipCode;
+		}
+		return address;
 	}
+
 
 
 }

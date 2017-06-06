@@ -23,7 +23,14 @@ public class PhoneDetail {
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return "Mobile number: " + this.mobileNumber + " Category: "+this.category+"";
+		String contactDetails = "";
+		if (mobileNumber != 0) {
+			contactDetails += "Mobile number: " + mobileNumber;
+		}
+		if (category != null) {
+			contactDetails += " Category: " + this.category;
+		}
+
+		return contactDetails;
 	}
 }

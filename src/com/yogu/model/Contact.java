@@ -53,8 +53,22 @@ public class Contact {
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return "Name: " + this.name + " Email Id: " + this.email + "  Contact Details: " + this.contactDetails
-				+ " Date of birth:  " + this.birthDay + " Address: " + this.address;
+		String contactsDetails = "";
+		if (name != null) {
+			contactsDetails += name;
+		}
+		if (email != null) {
+			contactsDetails += "Email Id: " + email;
+		}
+		if (contactDetails != null) {
+			contactsDetails += contactDetails;
+		}
+		if (birthDay != null) {
+			contactsDetails += " Date of birth: " + birthDay;
+		}
+		if (address != null) {
+			contactsDetails += address;
+		}
+		return contactsDetails;
 	}
 }

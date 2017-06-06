@@ -27,6 +27,13 @@ public class ContactDetails {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "Phone numbers: "+ this.phoneNumbers;
+		String phoneNumber="";
+		if(phoneNumbers!=null)
+		{
+			phoneNumber+="Phone numbers:"+phoneNumbers;
+		}
+		
+		
+		return phoneNumber;
 	}
 }

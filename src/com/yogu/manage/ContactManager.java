@@ -2,11 +2,14 @@ package com.yogu.manage;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.TreeMap;
 
 import com.yogu.application.ContactManagement;
@@ -18,7 +21,7 @@ import com.yogu.model.Name;
 import com.yogu.model.PhoneDetail;
 
 public class ContactManager {
-	private Map<String, List<Contact>> contactsByFirstName = new TreeMap<>();
+	private final Map<String, List<Contact>> contactsByFirstName = new TreeMap<>();
 
 	private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/mm/yyyy");
 
@@ -35,12 +38,21 @@ public class ContactManager {
 		}
 	}
 
-	public boolean deleteContact(String firstName, long mobileNumber) {
+	public boolean deleteContact(String firstName) {
 
-		Contact contact = searchContact(firstName, mobileNumber);
-		if (contact != null) {
-			return contactsByFirstName.get(firstName).remove(contact);
+		List<Contact> contacts = new ArrayList<>();
+		Set<Entry<String, List<Contact>>> contactsEntrySet = contactsByFirstName.entrySet();
+		for (Entry<String, List<Contact>> contactEntry : contactsEntrySet) {
+			if (contactEntry.getKey().startsWith(firstName)) {
+				contacts.addAll(contactEntry.getValue());
+			}
 		}
+		for (int i = 0; i < contacts.size(); i++) {
+			System.out.println((i + 1) + ") " + contacts.get(i).getContactDetails().getPhoneNumbers());
+		}
+		System.out.println("Enter an integer: ");
+		int value = Integer.parseInt(scanner.nextLine());
+		contacts.remove(value - 1);
 
 		return false;
 
@@ -86,7 +98,6 @@ public class ContactManager {
 			}
 
 			System.out.println("Do you want to update Email (Y/N): ");
-
 			if (getUserChoice()) {
 				System.out.println("Enter new email: ");
 				contactToBeUpdated.setEmail(scanner.nextLine());
@@ -150,57 +161,88 @@ public class ContactManager {
 
 	}
 
+	public List<Contact> searchContact(String firstName) {
+
+		List<Contact> contacts = new ArrayList<>();
+		Set<Entry<String, List<Contact>>> contactsEntrySet = contactsByFirstName.entrySet();
+		for (Entry<String, List<Contact>> contactEntry : contactsEntrySet) {
+			if (contactEntry.getKey().startsWith(firstName)) {
+				contacts.addAll(contactEntry.getValue());
+			}
+		}
+		return contacts;
+
+	}
+
 	public Contact getContactFromUser() {
 		Contact contact = new Contact();
+		Name name = new Name();
+		Address address = new Address();
 
 		System.out.println("Enter first name: ");
 		String firstName = scanner.nextLine();
-
-		System.out.println("Enter last name: ");
-		String lastName = scanner.nextLine();
+		name.setFirstName(firstName);
 
 		ContactDetails contactDetails = new ContactDetails();
 		List<PhoneDetail> phoneDetails = getPhoneDetailsFromUser();
 		contactDetails.setPhoneNumbers(phoneDetails);
 
-		System.out.println("Enter street name: ");
-		String streetName = scanner.nextLine();
-
-		System.out.println("Enter city: ");
-		String city = scanner.nextLine();
-
-		System.out.println("Enter state: ");
-		String state = scanner.nextLine();
-
-		System.out.println("Enter zipcode: ");
-		int zipCode = Integer.parseInt(scanner.nextLine());
-
-		System.out.println("Enter Birth day (dd/mm/yyyy): ");
-		String birthDay = scanner.nextLine();
-
-		try {
-			Date birthDate = simpleDateFormat.parse(birthDay);
-			contact.setBirthDay(birthDate);
-
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		System.out.println("Do you want to add last name?.y or n");
+		if (getUserChoice()) {
+			System.out.println("Enter last name: ");
+			String lastName = scanner.nextLine();
+			name.setLastName(lastName);
 		}
 
-		System.out.println("Enter email-id: ");
-		String emailId = scanner.nextLine();
+		System.out.println("Do you want to add street?.y or n");
+		if (getUserChoice()) {
+			System.out.println("Enter street name: ");
+			String streetName = scanner.nextLine();
+			address.setStreet(streetName);
 
-		Name name = new Name();
-		name.setFirstName(firstName);
-		name.setLastName(lastName);
+		}
+		System.out.println("Do you want to add city?.y or n");
+		if (getUserChoice()) {
+			System.out.println("Enter city: ");
+			String city = scanner.nextLine();
+			address.setCity(city);
 
-		Address address = new Address();
-		address.setStreet(streetName);
-		address.setCity(city);
-		address.setState(state);
-		address.setZipCode(zipCode);
+		}
+		System.out.println("Do you want to add state?.y or n");
+		if (getUserChoice()) {
+			System.out.println("Enter state: ");
+			String state = scanner.nextLine();
+			address.setState(state);
 
-		contact.setEmail(emailId);
+		}
+		System.out.println("Do you want to add zipcode?.y or n");
+		if (getUserChoice()) {
+			System.out.println("Enter zipcode: ");
+			int zipCode = Integer.parseInt(scanner.nextLine());
+			address.setZipCode(zipCode);
+
+		}
+
+		System.out.println("Do you want to add birthday?.y or n");
+		if (getUserChoice()) {
+			try {
+				System.out.println("Enter Birth day (dd/mm/yyyy): ");
+				String birthDay = scanner.nextLine();
+				Date birthDate = simpleDateFormat.parse(birthDay);
+				contact.setBirthDay(birthDate);
+
+			} catch (ParseException e) {
+				System.out.println("Please enter Correct format!");
+			}
+		}
+		System.out.println("Do you want to add email id?.y or n");
+		if (getUserChoice()) {
+			System.out.println("Enter email-id: ");
+			String emailId = scanner.nextLine();
+			contact.setEmail(emailId);
+
+		}
+
 		contact.setName(name);
 		contact.setAddress(address);
 		contact.setContactDetails(contactDetails);
@@ -241,12 +283,13 @@ public class ContactManager {
 
 			PhoneDetail phoneDetail = new PhoneDetail();
 			phoneDetail.setMobileNumber(mobileNumber);
+			System.out.println("Do you want to add category?.y or n");
+			if (getUserChoice()) {
+				System.out.println("Enter Category(MOBILE/HOME/OFFICE/OTHER): ");
+				String category = scanner.nextLine();
 
-			System.out.println("Enter Category(MOBILE/HOME/OFFICE/OTHER): ");
-			String category = scanner.nextLine();
-
-			phoneDetail.setCategory(Category.valueOf(category.toUpperCase()));
-
+				phoneDetail.setCategory(Category.valueOf(category.toUpperCase()));
+			}
 			phoneDetails.add(phoneDetail);
 			System.out.println("Do you want to add another number? Y or N ");
 			hasMoreNumber = getUserChoice();

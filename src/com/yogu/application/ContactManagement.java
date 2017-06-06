@@ -15,7 +15,6 @@ public class ContactManagement {
 	public static void main(String[] args) {
 
 		ContactManager contactManager = new ContactManager();
-
 		int choice;
 		String firstName;
 		long mobileNumber;
@@ -43,9 +42,8 @@ public class ContactManagement {
 			case 3:
 				System.out.println("Enter First Name: ");
 				firstName = scanner.nextLine();
-				System.out.println("Enter Mobile Number: ");
-				mobileNumber = Long.parseLong(scanner.nextLine());
-				boolean isDeleted = contactManager.deleteContact(firstName, mobileNumber);
+
+				boolean isDeleted = contactManager.deleteContact(firstName);
 				if (isDeleted) {
 					System.out.println("Contact deleted successfully...");
 				} else {
@@ -56,33 +54,24 @@ public class ContactManagement {
 			case 4:
 				System.out.println("Enter First Name: ");
 				firstName = scanner.nextLine();
-				System.out.println("Enter Mobile Number: ");
-				mobileNumber = Long.parseLong(scanner.nextLine());
-				contact = contactManager.searchContact(firstName, mobileNumber);
-				if (contact != null) {
-					System.out.println(contact);
-				} else {
-					System.out.println("Contact not found...");
+				List<Contact> contacts = contactManager.searchContact(firstName);
+				for (Contact contactToSearch : contacts) {
+					System.out.println(contactToSearch + "");
 				}
 				break;
 			case 5:
-			Map<String, List<Contact>> allContacts=contactManager.readContacts();
-			Set<Map.Entry<String, List<Contact>>> contactsSet=allContacts.entrySet();
-			for(Map.Entry<String, List<Contact>> contactSet:contactsSet)
-			{
-				List<Contact> contacts=contactSet.getValue();
-				for(Contact contactToRead:contacts)
-				{
-					System.out.print(contactToRead+" "); 
-					System.out.println("");
+				Map<String, List<Contact>> allContacts = contactManager.readContacts();
+				Set<Map.Entry<String, List<Contact>>> contactsSet = allContacts.entrySet();
+				for (Map.Entry<String, List<Contact>> contactSet : contactsSet) {
+					List<Contact> ContactsToRead = contactSet.getValue();
+					for (Contact contactToRead : ContactsToRead) {
+						System.out.print(contactToRead + " ");
+						System.out.println("");
+					}
 				}
-			}
 				break;
-
 			}
-		}
-
-		while (choice > 0 && choice < 6);
+		} while (choice > 0 && choice < 6);
 		scanner.close();
 		System.out.println("Bye...Have a good day..");
 		System.exit(1);
