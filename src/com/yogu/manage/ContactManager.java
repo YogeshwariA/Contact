@@ -40,21 +40,28 @@ public class ContactManager {
 
 	public boolean deleteContact(String firstName) {
 
-		List<Contact> contacts = new ArrayList<>();
-		Set<Entry<String, List<Contact>>> contactsEntrySet = contactsByFirstName.entrySet();
-		for (Entry<String, List<Contact>> contactEntry : contactsEntrySet) {
-			if (contactEntry.getKey().startsWith(firstName)) {
-				contacts.addAll(contactEntry.getValue());
-			}
-		}
+		List<Contact> contacts = searchContact(firstName);
+
 		for (int i = 0; i < contacts.size(); i++) {
 			System.out.println((i + 1) + ") " + contacts.get(i).getContactDetails().getPhoneNumbers());
 		}
-		System.out.println("Enter an integer: ");
-		int value = Integer.parseInt(scanner.nextLine());
-		contacts.remove(value - 1);
 
-		return false;
+		System.out.println("Enter mobile number to delete: ");
+		long mobileNumToDelete = Long.parseLong(scanner.nextLine());
+		boolean isDeleted = false;
+		for (Entry<String, List<Contact>> contactEntry : contactsByFirstName.entrySet()) {
+			if (contactEntry.getKey().startsWith(firstName)) {
+				for (Contact contact : contactEntry.getValue()) {
+					for (PhoneDetail phone : contact.getContactDetails().getPhoneNumbers()) {
+						if (phone.getMobileNumber() == mobileNumToDelete) {
+							isDeleted = contactEntry.getValue().remove(contact);
+						}
+					}
+				}
+			}
+		}
+
+		return isDeleted;
 
 	}
 
