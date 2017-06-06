@@ -54,7 +54,7 @@ public class Contact {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "Name: " + this.name + "\nEmail Id: " + this.email + "\nContact Details: " + this.contactDetails
-				+ "\n Date of birth:  " + this.birthDay + "\n Address: " + this.address;
+		return "Name: " + this.name + " Email Id: " + this.email + "  Contact Details: " + this.contactDetails
+				+ " Date of birth:  " + this.birthDay + " Address: " + this.address;
 	}
 }

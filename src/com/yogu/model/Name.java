@@ -42,6 +42,6 @@ public class Name {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "First name: "+ this.firstName +"\n Last name " + this.lastName;
+		return "First name: "+ this.firstName +" Last name: " + this.lastName;
 	}
 }

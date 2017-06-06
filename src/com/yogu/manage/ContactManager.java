@@ -18,7 +18,7 @@ import com.yogu.model.Name;
 import com.yogu.model.PhoneDetail;
 
 public class ContactManager {
-	private  Map<String, List<Contact>> contactsByFirstName = new TreeMap<>();
+	private Map<String, List<Contact>> contactsByFirstName = new TreeMap<>();
 
 	private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/mm/yyyy");
 
@@ -46,9 +46,10 @@ public class ContactManager {
 
 	}
 
-	public List<Contact> readContacts(String firstName) {
+	public Map<String, List<Contact>> readContacts() {
 
-		return contactsByFirstName.get(firstName);
+		return contactsByFirstName;
+
 	}
 
 	public boolean updateContact(String firstName, long mobileNumber) {
@@ -231,7 +232,7 @@ public class ContactManager {
 		return "Y".equalsIgnoreCase(scanner.nextLine());
 	}
 
-	private  List<PhoneDetail> getPhoneDetailsFromUser() {
+	private List<PhoneDetail> getPhoneDetailsFromUser() {
 		List<PhoneDetail> phoneDetails = new LinkedList<>();
 		boolean hasMoreNumber;
 		do {
