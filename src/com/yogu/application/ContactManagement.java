@@ -17,7 +17,6 @@ public class ContactManagement {
 		ContactManager contactManager = new ContactManager();
 		int choice;
 		String firstName;
-		long mobileNumber;
 		Contact contact;
 		do {
 			choice = contactManager.displayMainMenu();
@@ -31,9 +30,8 @@ public class ContactManagement {
 			case 2:
 				System.out.println("Enter First Name: ");
 				firstName = scanner.nextLine();
-				System.out.println("Enter Mobile Number: ");
-				mobileNumber = Long.parseLong(scanner.nextLine());
-				if (contactManager.updateContact(firstName, mobileNumber)) {
+				
+				if (contactManager.updateContact(firstName)) {
 					System.out.println("Contact updated successfully");
 				} else {
 					System.out.println("Contact not found");

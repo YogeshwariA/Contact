@@ -58,7 +58,7 @@ public class Contact {
 			contactsDetails += name;
 		}
 		if (email != null) {
-			contactsDetails += "Email Id: " + email;
+			contactsDetails += " Email Id: " + email;
 		}
 		if (contactDetails != null) {
 			contactsDetails += contactDetails;

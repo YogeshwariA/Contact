@@ -40,27 +40,18 @@ public class ContactManager {
 
 	public boolean deleteContact(String firstName) {
 
-		List<Contact> contacts = searchContact(firstName);
-
-		for (int i = 0; i < contacts.size(); i++) {
-			System.out.println((i + 1) + ") " + contacts.get(i).getContactDetails().getPhoneNumbers());
-		}
-
-		System.out.println("Enter mobile number to delete: ");
-		long mobileNumToDelete = Long.parseLong(scanner.nextLine());
+		Contact contactToBeDeleted = searchSingleContact(firstName);
 		boolean isDeleted = false;
 		for (Entry<String, List<Contact>> contactEntry : contactsByFirstName.entrySet()) {
 			if (contactEntry.getKey().startsWith(firstName)) {
 				for (Contact contact : contactEntry.getValue()) {
-					for (PhoneDetail phone : contact.getContactDetails().getPhoneNumbers()) {
-						if (phone.getMobileNumber() == mobileNumToDelete) {
-							isDeleted = contactEntry.getValue().remove(contact);
-						}
+					if (contact.equals(contactToBeDeleted)) {
+						isDeleted = contactEntry.getValue().remove(contact);
 					}
+
 				}
 			}
 		}
-
 		return isDeleted;
 
 	}
@@ -71,9 +62,9 @@ public class ContactManager {
 
 	}
 
-	public boolean updateContact(String firstName, long mobileNumber) {
+	public boolean updateContact(String firstName) {
 
-		Contact contactToBeUpdated = searchContact(firstName, mobileNumber);
+		Contact contactToBeUpdated = searchSingleContact(firstName);
 		if (contactToBeUpdated != null) {
 
 			System.out.println("Do you want to update Last Name (Y/N): ");
@@ -136,7 +127,8 @@ public class ContactManager {
 				System.out.println("Do you want to update Zip Code (Y/N): ");
 				if (getUserChoice()) {
 					System.out.println("Enter Zip Code: ");
-					addressToBeUpdated.setZipCode(Integer.parseInt(scanner.nextLine()));
+					int code=Integer.parseInt(scanner.nextLine());
+					addressToBeUpdated.setZipCode(code);
 				}
 
 			}
@@ -178,6 +170,19 @@ public class ContactManager {
 			}
 		}
 		return contacts;
+
+	}
+
+	private Contact searchSingleContact(String firstName) {
+		List<Contact> contacts = searchContact(firstName);
+
+		for (int i = 0; i < contacts.size(); i++) {
+			System.out.println((i + 1) + ") " + contacts.get(i).getContactDetails().getPhoneNumbers());
+		}
+
+		System.out.println("Enter your choice: ");
+		int value = Integer.parseInt(scanner.nextLine());
+		return contacts.get(value - 1);
 
 	}
 

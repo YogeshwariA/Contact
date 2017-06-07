@@ -30,7 +30,7 @@ public class ContactDetails {
 		String phoneNumber="";
 		if(phoneNumbers!=null)
 		{
-			phoneNumber+="Phone numbers:"+phoneNumbers;
+			phoneNumber+=" Phone numbers:"+phoneNumbers;
 		}
 		
 		
